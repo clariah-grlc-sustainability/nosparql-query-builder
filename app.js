@@ -46,7 +46,14 @@ function setupAutocomplete(selector, type) {
                 }
             });
         },
-        minLength: 2
+        minLength: 2,
+        select: function(event, ui) {
+            // Set the text box value to the label of the selected item
+            $(this).val(ui.item.label);
+            // Store the full URI in a hidden input field next to the text box
+            $(this).next('.hidden-uri').val(ui.item.value);
+            return false; // Prevent the default action
+        }
     });
 }
 
@@ -75,10 +82,7 @@ function buildAutocompleteQuery(type, term) {
 }
 
 function parseAutocompleteResults(data, type) {
-    console.log('data: ', data, ' type: ', type);
-    console.log();
     const bindings = data.results.bindings;
-    console.log('bindings: ', bindings);
     return bindings.map(binding => {
         return {
             label: binding.label.value,
@@ -91,9 +95,12 @@ function addFilterGroup() {
     const filterGroup = `
         <div class="filter-group">
             <input type="text" id="predicate-${filterCount}" class="predicate">
+            <input type="hidden" class="hidden-uri">
             <input type="text" id="object-${filterCount}" class="object">
+            <input type="hidden" class="hidden-uri">
         </div>
     `;
+
     $('#filter-container').append(filterGroup);
     setupAutocomplete(`#predicate-${filterCount}`, 'predicate');
     setupAutocomplete(`#object-${filterCount}`, 'object');
@@ -107,7 +114,8 @@ function updateSparqlQuery() {
         
         SELECT ?subject`;
 
-    const showAttribute = $('#show-attribute').val();
+    const showAttribute = $('#show-attribute').next('.hidden-uri').val();
+
     if (showAttribute) {
         query += ` ?showAttributeVal\r\n`;
     }
@@ -120,8 +128,9 @@ function updateSparqlQuery() {
     `;
 
     $('.filter-group').each(function() {
-        const predicate = $(this).find('.predicate').val();
-        const object = $(this).find('.object').val();
+        const predicate = $(this).find('.predicate').next('.hidden-uri').val();
+        const object = $(this).find('.object').next('.hidden-uri').val();
+
         if (predicate && object) {
             query += `
             ?subject <${predicate}> <${object}> .

@@ -1,0 +1,13 @@
+{
+  "name": "nosparql-query-builder",
+  "version": "0.0.1",
+  "description": "GUI for building SPARQL queries without requiring knowledge of SPARQL. Inspired by the Wikidata Query Service.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Kody Moodley",
+  "affliation": "Netherlands eScience Center",
+  "license": "http://mit-license.org"
+}
