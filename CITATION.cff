@@ -1,0 +1,41 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: NoSPARQL Query Builder
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Kody
+    family-names: Moodley
+    email: k.moodley@esciencecenter.nl
+    affiliation: Netherlands eScience Center
+    orcid: 'https://orcid.org/0000-0001-5666-1658'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.13521901
+    description: Zenodo archived release v0.0.1-alpha
+repository-code: >-
+  https://github.com/clariah-grlc-sustainability/nosparql-query-builder
+url: >-
+  https://research-software-directory.org/projects/enhancing-the-sustainability-of-grlc
+abstract: >-
+  Lightweight client-side javascript application to query a
+  SPARQL public endpoint without knowledge of the SPARQL
+  language. The application provides a web form for users to
+  enter / search for information in the endpoint.
+  Autocompletion in the form fields is used to recommend
+  relevant data available in the endpoint as the user types.
+keywords:
+  - SPARQL
+  - RDF
+  - Linked Data
+  - Autocompletion
+  - Javascript
+  - GRLC
+license: MIT
+commit: e7b966e
+version: 0.0.1-alpha
+date-released: '2024-08-29'
