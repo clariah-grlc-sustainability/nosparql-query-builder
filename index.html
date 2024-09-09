@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPARQL Query Editor</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
 </head>
 <body>
     <div id="main-content">
@@ -15,7 +15,7 @@
             <input type="text" id="endpoint-url" value="https://dbpedia.org/sparql">
             <div id="filter-container">
                 <label for="filters-lbl">Filters</label>
-                <div class="filter-group">
+                <div class="search-filter">
                     <input type="text" id="predicate-0" class="predicate">
                     <input type="hidden" class="hidden-uri">
                     <input type="text" id="object-0" class="object">
@@ -40,8 +40,8 @@
         <div id="results"></div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

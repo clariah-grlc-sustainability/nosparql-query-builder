@@ -1,12 +1,13 @@
 let filterCount = 1;
 
 $(document).ready(function() {
+    // Autocompletion for search filter dropdown boxes
     setupAutocomplete('.predicate', 'predicate');
     setupAutocomplete('.object', 'object');
     setupAutocomplete('#show-attribute', 'predicate');
 
     $('#add-filter').click(function() {
-        addFilterGroup();
+        addSearchFilter();
     });
 
     $('#execute-query').click(function() {
@@ -17,6 +18,7 @@ $(document).ready(function() {
         updateSparqlQuery();
     });
 
+    // Show or hide side panel
     $('#side-panel').click(function() {
         $('#left-pane').toggleClass('hidden');
         if ($('#left-pane').hasClass('hidden')) {
@@ -47,10 +49,11 @@ function setupAutocomplete(selector, type) {
             });
         },
         minLength: 2,
+        // Only display human-readable label in filter boxes (not the full IRIs)
         select: function(event, ui) {
-            // Set the text box value to the label of the selected item
+            // Set the text box value to the human-readable label of the selected item
             $(this).val(ui.item.label);
-            // Store the full URI in a hidden input field next to the text box
+            // Store the full IRI in a hidden input field next to the text box
             $(this).next('.hidden-uri').val(ui.item.value);
             return false; // Prevent the default action
         }
@@ -91,9 +94,9 @@ function parseAutocompleteResults(data, type) {
     });
 }
 
-function addFilterGroup() {
-    const filterGroup = `
-        <div class="filter-group">
+function addSearchFilter() {
+    const filter = `
+        <div class="search-filter">
             <input type="text" id="predicate-${filterCount}" class="predicate">
             <input type="hidden" class="hidden-uri">
             <input type="text" id="object-${filterCount}" class="object">
@@ -101,61 +104,10 @@ function addFilterGroup() {
         </div>
     `;
 
-    $('#filter-container').append(filterGroup);
+    $('#filter-container').append(filter);
     setupAutocomplete(`#predicate-${filterCount}`, 'predicate');
     setupAutocomplete(`#object-${filterCount}`, 'object');
     filterCount++;
-}
-
-function updateSparqlQuery() {
-    let query = `
-        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        
-        SELECT ?subject`;
-
-    const showAttribute = $('#show-attribute').next('.hidden-uri').val();
-
-    if (showAttribute) {
-        query += ` ?showAttributeVal\r\n`;
-    }
-    else {
-        query += `\r\n`;
-    }
-
-    query += `
-        WHERE {
-    `;
-
-    $('.filter-group').each(function() {
-        const predicate = $(this).find('.predicate').next('.hidden-uri').val();
-        const object = $(this).find('.object').next('.hidden-uri').val();
-
-        if (predicate && object) {
-            query += `
-            ?subject <${predicate}> <${object}> .
-            `;
-        }
-    });
-
-    if (showAttribute) {
-        query += ` 
-            ?subject <${showAttribute}> ?showAttributeVal .
-        `;
-    }
-
-    const limit = $('#limit-val').val();
-
-    if (limit) {
-        query += `
-        } LIMIT ${limit}`;
-    }
-    else {
-        query += `
-        } LIMIT 100`;
-    }
-
-    $('#sparql-query').text(query);
 }
 
 function executeSparqlQuery() {
@@ -210,4 +162,55 @@ function displayResults(data) {
     } else {
         $('#results').html('<p>No results found.</p>');
     }
+}
+
+function updateSparqlQuery() {
+    let query = `
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        
+        SELECT ?subject`;
+
+    const showAttribute = $('#show-attribute').next('.hidden-uri').val();
+
+    if (showAttribute) {
+        query += ` ?showAttributeVal\r\n`;
+    }
+    else {
+        query += `\r\n`;
+    }
+
+    query += `
+        WHERE {
+    `;
+
+    $('.search-filter').each(function() {
+        const predicate = $(this).find('.predicate').next('.hidden-uri').val();
+        const object = $(this).find('.object').next('.hidden-uri').val();
+
+        if (predicate && object) {
+            query += `
+            ?subject <${predicate}> <${object}> .
+            `;
+        }
+    });
+
+    if (showAttribute) {
+        query += ` 
+            ?subject <${showAttribute}> ?showAttributeVal .
+        `;
+    }
+
+    const limit = $('#limit-val').val();
+
+    if (limit) {
+        query += `
+        } LIMIT ${limit}`;
+    }
+    else {
+        query += `
+        } LIMIT 100`;
+    }
+
+    $('#sparql-query').text(query);
 }
