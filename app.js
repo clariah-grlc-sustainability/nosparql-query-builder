@@ -35,26 +35,26 @@ function setupAutocomplete(selector, type) {
     $(selector).autocomplete({
         source: function(request, response) {
             const endpointUrl = $('#endpoint-url').val();
-            $.ajax({
-                url: endpointUrl,
-                dataType: 'json',
-                data: {
+            superagent
+                .get(endpointUrl)
+                .query({
                     query: buildAutocompleteQuery(type, request.term),
                     format: 'json'
-                },
-                success: function(data) {
-                    const items = parseAutocompleteResults(data, type);
+                })
+                .set('Accept', '*/*')
+                .then(res => {
+                    const items = parseAutocompleteResults(res.body, type);
                     response(items);
-                }
-            });
+                })
+                .catch(error => {
+                    console.error('Error fetching autocomplete results:', error);
+                    response([]); // Pass an empty array on error to indicate no results
+                });
         },
         minLength: 2,
-        // Only display human-readable label in filter boxes (not the full IRIs)
         select: function(event, ui) {
-            // Set the text box value to the human-readable label of the selected item
-            $(this).val(ui.item.label);
-            // Store the full IRI in a hidden input field next to the text box
-            $(this).next('.hidden-uri').val(ui.item.value);
+            $(this).val(ui.item.label); // Set the input box value to the selected item's label
+            $(this).next('.hidden-uri').val(ui.item.value); // Store the full IRI in a hidden field
             return false; // Prevent the default action
         }
     });
@@ -63,9 +63,11 @@ function setupAutocomplete(selector, type) {
 function buildAutocompleteQuery(type, term) {
     if (type === 'predicate') {
         return `
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             SELECT DISTINCT ?predicate ?label
             WHERE {
+                ?predicate rdf:type rdf:Property .
                 ?predicate rdfs:label ?label .
                 FILTER(regex(?label, "${term}", "i"))
             }
@@ -114,20 +116,17 @@ function executeSparqlQuery() {
     const query = $('#sparql-query').text().trim();
     const endpointUrl = $('#endpoint-url').val();
     if (query) {
-        $.ajax({
-            url: endpointUrl,
-            dataType: 'json',
-            data: {
-                query: query,
-                format: 'json'
-            },
-            success: function(data) {
-                displayResults(data);
-            },
-            error: function() {
+        superagent
+            .get(endpointUrl)
+            .query({ query: query, format: 'json' })
+            .set('Accept', '*/*')
+            .then(response => {
+                displayResults(response.body);
+            })
+            .catch(error => {
                 $('#results').html('<p>Error executing query.</p>');
-            }
-        });
+                console.error('Error executing query:', error);
+            });
     }
 }
 

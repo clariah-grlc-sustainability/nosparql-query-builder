@@ -87,3 +87,9 @@ body {
 input {
     border: 1px solid #ccc;
 }
+.ui-autocomplete {
+    max-height: 200px; /* Sets the maximum height for the dropdown */
+    overflow-y: auto; /* Enables vertical scrolling */
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+    padding-right: 20px; /* Adds padding for better appearance */
+}
