@@ -84,6 +84,9 @@ body {
     background: #e6fde9;
     border: 1px solid #ccc;
 }
+#search-filter {
+    padding-top: 3px;
+}
 input {
     border: 1px solid #ccc;
 }
@@ -92,4 +95,14 @@ input {
     overflow-y: auto; /* Enables vertical scrolling */
     overflow-x: hidden; /* Prevents horizontal scrolling */
     padding-right: 20px; /* Adds padding for better appearance */
+}
+/* Additional styling for autocomplete items */
+.ui-menu-item {
+    padding: 8px 12px; /* Padding inside each item */
+    cursor: pointer; /* Show pointer cursor on hover */
+}
+/* Highlighted item when hovered */
+.ui-state-active {
+    background-color: #e6e6e6; /* Highlight background color */
+    color: black; /* Text color when item is highlighted */
 }
