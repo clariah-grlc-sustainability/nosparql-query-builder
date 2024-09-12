@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import axios from 'axios';
+import superagent from 'superagent';
 
 const test_case_1 = { 
     'endpoint' :  'http://dbpedia.org/sparql',
@@ -14,7 +14,7 @@ const test_case_1 = {
     'limit' : 8
 }
 
-async function executeSparqlQuery(test_data) {
+function executeSparqlQuery(test_data) {
     let query = `
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -34,17 +34,16 @@ async function executeSparqlQuery(test_data) {
     query += `LIMIT ${test_data['limit']}\r\n`;
 
     if (query) {
-        try {
-            const response = await axios.get(endpointUrl, {
-                params: {
-                    query: query,
-                    format: 'json'
-                }
+        superagent
+            .get(endpointUrl)
+            .query({ query: query, format: 'json' })
+            .set('Accept', '*/*')
+            .then(response => {
+                displayResults(response.body);
+            })
+            .catch(error => {
+                console.error('Error executing query:', error);
             });
-            displayResults(response.data);
-        } catch (error) {
-            console.error('Error executing query:', error);
-        }
     }
 }
 
