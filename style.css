@@ -1,108 +1,269 @@
-body {
-    display: flex;
-    flex-direction: column;
-    font-family: Arial, sans-serif;
-    height: 100vh;
+/* Reset styles */
+* {
+    box-sizing: border-box;
     margin: 0;
+    padding: 0;
+}
+
+/* Body styles */
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
     overflow: hidden;
 }
+
+/* Side panel toggle button */
 #side-panel {
-    width: 40px;
-    background-color: #2c3e50;
-    color: white;
+    position: fixed;
+    top: 20px;
+    left: 20px; /* Ensure button stays in the top-left corner */
+    font-size: 24px;
     cursor: pointer;
-    text-align: center;
+    z-index: 1000;
+    background-color: #3498db;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: left 0.3s ease;
 }
+
+/* When left pane is hidden, adjust side-panel position */
+#left-pane.hidden ~ #side-panel {
+    left: 20px;
+}
+
+/* Main content area */
 #main-content {
     display: flex;
-    flex: 1;
+    flex-direction: row;
+    height: calc(50vh - 60px); /* Adjusted height */
+    width: calc(100% - 80px); /* Shift content to the right of the button */
+    margin-left: 80px; /* Ensure the content starts to the right of the side-panel button */
+    overflow: hidden;
 }
+
+/* Left pane */
 #left-pane {
+    width: 300px;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    transition: transform 0.3s ease;
     padding: 20px;
-    border-right: 1px solid #ccc;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    white-space: nowrap;
 }
+
+/* Hide the left pane */
 #left-pane.hidden {
-    display: none;
+    transform: translateX(-100%);
 }
+
+/* Right pane */
 #right-pane {
+    flex: 1;
+    background-color: #fff;
     padding: 20px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    overflow-y: auto;
+    transition: margin-left 0.3s ease;
 }
-.filter-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+
+/* Adjust right-pane when left-pane is hidden */
+#left-pane.hidden + #right-pane {
+    margin-left: 0;
 }
-.filter-group label {
-    margin-right: 10px;
+
+/* Adjust right-pane when left-pane is visible */
+#left-pane:not(.hidden) + #right-pane {
+    margin-left: 0; /* No margin needed */
 }
-#sparql-query {
-    white-space: pre-wrap;
-    background: #e6fde9;
-    padding: 10px;
-    border: 1px solid #ccc;
-    flex: 1;
-    overflow: auto;
-}
-#execute-query {
-    align-self: center;
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-#execute-query:hover {
-    background-color: #2980b9;
-}
+
+/* Results pane moved higher up */
 #results-pane {
     padding: 20px;
-    border-top: 1px solid #ccc;
-    background: #ffffff;
+    background-color: #fff;
     overflow-y: auto;
+    height: calc(50vh - 60px); /* Adjusted height */
+    margin-left: 80px; /* Shift the results section to the right of the button */
+}
+
+/* Headings */
+h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+}
+
+/* Form elements */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: calc(100% - 10px);
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#filter-container {
+    margin-bottom: 20px;
+}
+
+.search-filter {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.search-filter input[type="text"] {
     flex: 1;
+    margin-right: 10px;
 }
-#results-pane h3 {
-    margin-top: 0;
+
+.delete-filter {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
 }
+
 #add-filter {
-    background: #e6fde9;
-    border: 1px solid #ccc;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
 }
-#search-filter {
-    padding-top: 3px;
+
+#execute-query {
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
 }
-input {
-    border: 1px solid #ccc;
+
+#execute-query:hover {
+    background-color: #27ae60;
 }
+
+/* SPARQL Query display */
+#sparql-query {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 15px;
+    white-space: pre-wrap;
+}
+
+/* Results table */
+#results table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+#results th, #results td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+#results th {
+    background-color: #f4f4f4;
+}
+
+/* Loader */
+.loader {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 50px auto;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Adjustments for small screens */
+@media (max-width: 768px) {
+    #main-content {
+        flex-direction: column;
+        height: auto;
+        margin-left: 20px; /* Adjusted for small screens */
+        width: calc(100% - 40px); /* Adjusted width */
+    }
+
+    #left-pane, #right-pane {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    #left-pane.hidden {
+        transform: translateY(-100%);
+    }
+
+    #left-pane.hidden + #right-pane {
+        margin-top: 0;
+    }
+
+    #results-pane {
+        height: auto;
+        margin-left: 20px; /* Adjusted for small screens */
+    }
+}
+
+/* Button hover effects */
+button:hover {
+    opacity: 0.9;
+}
+
+.delete-filter:hover {
+    background-color: #c0392b;
+}
+
+#add-filter:hover {
+    background-color: #2980b9;
+}
+
+#execute-query:hover {
+    background-color: #27ae60;
+}
+
+/* Autocomplete styles */
 .ui-autocomplete {
-    max-height: 200px; /* Sets the maximum height for the dropdown */
-    overflow-y: auto; /* Enables vertical scrolling */
-    overflow-x: hidden; /* Prevents horizontal scrolling */
-    padding-right: 20px; /* Adds padding for better appearance */
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 20px;
 }
-/* Additional styling for autocomplete items */
+
 .ui-menu-item {
-    padding: 8px 12px; /* Padding inside each item */
-    cursor: pointer; /* Show pointer cursor on hover */
+    padding: 8px 12px;
+    cursor: pointer;
 }
-/* Highlighted item when hovered */
+
 .ui-state-active {
-    background-color: #e6e6e6; /* Highlight background color */
-    color: black; /* Text color when item is highlighted */
+    background-color: #e6e6e6;
+    color: black;
 }

@@ -4,42 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPARQL Query Editor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
 </head>
 <body>
+    <div id="side-panel">☰</div>
+
     <div id="main-content">
-        <div id="side-panel">☰</div>
         <div id="left-pane">
             <label for="endpoint-url">SPARQL Endpoint URL</label>
             <input type="text" id="endpoint-url" value="https://dbpedia.org/sparql">
+
             <div id="filter-container">
-                <label for="filters-lbl">Filters</label>
+                <label>Filters</label>
                 <div class="search-filter">
-                    <input type="text" id="predicate-0" class="predicate">
+                    <input type="text" id="predicate-0" class="predicate" placeholder="Predicate">
                     <input type="hidden" class="hidden-uri">
-                    <input type="text" id="object-0" class="object">
+                    <input type="text" id="object-0" class="object" placeholder="Object">
                     <input type="hidden" class="hidden-uri">
+                    <button class="delete-filter">X</button>
                 </div>
             </div>
-            <button id="add-filter">+</button>
-            <label for="show-attribute-lbl">Show</label>
-            <input type="text" id="show-attribute" class="show">
+            <button id="add-filter">Add Filter</button>
+
+            <label for="show-attribute">Show Attribute</label>
+            <input type="text" id="show-attribute" class="show" placeholder="Attribute">
             <input type="hidden" class="hidden-uri">
-            <label for="limit-lbl">Limit</label>
-            <input type="number" id="limit-val" class="limit">
+
+            <label for="limit-val">Limit</label>
+            <input type="number" id="limit-val" class="limit" value="100">
+
+            <button id="execute-query">Execute Query</button>
         </div>
+
         <div id="right-pane">
             <h3>SPARQL Query</h3>
             <div id="sparql-query"></div>
-            <button id="execute-query">Execute Query</button>
         </div>
     </div>
     <div id="results-pane">
         <h3>Query Results</h3>
         <div id="results"></div>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/superagent"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js"></script>
