@@ -12,7 +12,7 @@
 <body>
     <div id="main-content" class="grid h-screen grid-rows-[60%]">
         <div class="flex">
-            <div class="left w-[20%]">
+            <div class="left w-[30%]">
                 <label for="endpoint-url">SPARQL Endpoint URL</label>
                 <input type="text" id="endpoint-url" value="https://dbpedia.org/sparql">
 
@@ -28,8 +28,30 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <button id="add-filter">Add Filter</button>
+
+                <div id="value-filter-container">
+                    <label>Value Filters</label>
+                    <div class="value-search-filter">
+                        <input type="text" id="vpredicate-0" class="predicate" placeholder="Predicate">
+                        <input type="hidden" class="hidden-uri">
+                        <input type="text" id="min-val-0" class="min-val" placeholder="Min Value">
+                        <input type="text" id="max-val-0" class="max-val" placeholder="Max Value">
+                        <select id="datatype-0" class="datatype">
+                            <option value="xsd:date">Date</option>
+                            <option value="xsd:integer">Integer</option>
+                            <option value="xsd:decimal">Decimal</option>
+                            <option value="xsd:float">Float</option>
+                        </select>
+                        <div class="delete-filter-comp">
+                            <button class="value-delete-filter">X</button>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <button id="add-value-filter">Add Value Filter</button>
 
                 <label for="show-attribute">Show Attribute</label>
                 <input type="text" id="show-attribute" class="show" placeholder="Attribute">

@@ -142,7 +142,18 @@ input[type="number"] {
     margin-bottom: 10px;
 }
 
+.value-search-filter {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
 .search-filter input[type="text"] {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.value-search-filter input[type="text"] {
     flex: 1;
     margin-right: 10px;
 }
@@ -160,7 +171,26 @@ input[type="number"] {
     cursor: pointer;
 }
 
+.value-delete-filter {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
 #add-filter {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+#add-value-filter {
     background-color: #3498db;
     color: #fff;
     border: none;
