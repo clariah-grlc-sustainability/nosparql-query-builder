@@ -6,3 +6,7 @@
 GUI for building SPARQL queries without requiring knowledge of SPARQL. Inspired by the Wikidata Query Service.
 
 ![screenshot](https://github.com/clariah-grlc-sustainability/nosparql-query-builder/blob/main/images/screenshot.png?raw=true)
+
+## Installing and testing
+
+Clone the repo. Open ```index.html``` in your browser ([Chrome](https://www.google.com/chrome/what-you-make-of-it/) or [Firefox](https://www.mozilla.org/en-US/firefox/new/) recommended).
