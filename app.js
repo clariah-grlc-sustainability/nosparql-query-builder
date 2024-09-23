@@ -175,13 +175,15 @@ function addValueSearchFilter() {
             <input type="hidden" class="hidden-uri">
             <input type="text" id="min-val-0" class="min-val" placeholder="Min Value">
             <input type="text" id="max-val-0" class="max-val" placeholder="Max Value">
-            <select id="datatype-${valueFilterCount}" class="datatype">
-                <option value="xsd:date">Date</option>
-                <option value="xsd:integer">Integer</option>
-                <option value="xsd:decimal">Decimal</option>
-                <option value="xsd:float">Float</option>
-                <option value="xsd:string">String</option>
-            </select>
+            <div class="dtype-dropdown">
+                <select id="datatype-${valueFilterCount}" class="datatype">
+                    <option value="xsd:date">Date</option>
+                    <option value="xsd:integer">Integer</option>
+                    <option value="xsd:decimal">Decimal</option>
+                    <option value="xsd:float">Float</option>
+                    <option value="xsd:string">String</option>
+                </select>
+            </div>
             <div class="delete-filter-comp">
                 <button class="value-delete-filter">X</button>
             </div>

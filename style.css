@@ -5,10 +5,14 @@
     padding: 0;
 }
 
+#flexbox {
+    display: flex;
+}
+
 /* Body styles */
 body {
     font-family: 'Open Sans', sans-serif;
-    color: #333;
+    color: #3c3c3c;
     font-size: 12px;
     background-color: #f9f9f9;
     overflow: hidden;
@@ -34,7 +38,6 @@ body {
     width: 30vw;
     background-color: #fff;
     border-right: 1px solid #ddd;
-    transition: all 0.5s ease;
     padding: 20px;
     overflow-y: auto;
 }
@@ -59,7 +62,7 @@ body {
     padding: 20px;
     background-color: #fff;
     overflow-y: auto;
-    transition: margin-left 0.3s ease;
+    transition: margin-left 0.5s ease;
 }
 
 #main-content {
@@ -77,9 +80,6 @@ body {
         margin-top: 20px;
     }
 
-    .left.hidden {
-        transform: translateY(-100%);
-    }
 }
 
 .left.hidden + .right {
@@ -101,7 +101,7 @@ body {
 /* Headings */
 h3 {
     margin-bottom: 15px;
-    font-size: 20px;
+    font-size: 14px;
     border-bottom: 2px solid #3498db;
     padding-bottom: 5px;
 }
@@ -117,6 +117,7 @@ input[type="text"],
 input[type="number"] {
     width: calc(100% - 10px);
     padding: 8px;
+    color: #3c3c3c;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -142,6 +143,19 @@ input[type="number"] {
     margin-right: 10px;
 }
 
+.datatype {
+    font-family: 'Open Sans', sans-serif;
+    color: #3c3c3c;
+    font-size: 12px;
+    height: 34px;
+    border-radius: 4px;
+}
+
+.dtype-dropdown {
+    padding-right: 10px;
+    padding-bottom: 15px;   
+}
+
 .delete-filter-comp {
     padding-bottom: 14px;
 }
@@ -158,6 +172,7 @@ input[type="number"] {
 .value-delete-filter {
     background-color: #e74c3c;
     color: #fff;
+    font-size: 12px;
     border: none;
     padding: 6px 10px;
     border-radius: 4px;
@@ -237,10 +252,6 @@ input[type="number"] {
     height: 40px;
     animation: spin 1s linear infinite;
     margin: 50px auto;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
 }
 
 /* Adjustments for small screens */
