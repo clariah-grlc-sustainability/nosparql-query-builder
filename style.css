@@ -254,6 +254,10 @@ input[type="number"] {
     margin: 50px auto;
 }
 
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 /* Adjustments for small screens */
 
 /* Button hover effects */
