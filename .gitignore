@@ -5,6 +5,9 @@
 /tmp
 /out-tsc
 
+# python environment (for testing local SPARQL endpoint - using rdflib-endpoint)
+venv/
+
 # Runtime data
 pids
 *.pid

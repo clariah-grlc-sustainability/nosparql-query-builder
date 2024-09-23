@@ -24,12 +24,12 @@ $(document).ready(function() {
     });
 
     // Show or hide side panel
-    $('#side-panel').click(function() {
-        $('#left-pane').toggleClass('hidden');
-        if ($('#left-pane').hasClass('hidden')) {
-            $('#side-panel').text('→');
+    $('.side-panel').click(function() {
+        $('.left').toggleClass('hidden');
+        if ($('.left').hasClass('hidden')) {
+            $('.side-panel').text('→');
         } else {
-            $('#side-panel').text('☰');
+            $('.side-panel').text('☰');
         }
     });
 
@@ -90,7 +90,7 @@ function setupAutocomplete(selector, type) {
 }
 
 function fetchSuggestions(endpointUrl, type, term, page, callback) {
-    const limit = 10; // Number of suggestions per page
+    const limit = 30; // Number of suggestions per page
     const offset = page * limit; // Calculate the offset for pagination
 
     $.ajax({
@@ -114,7 +114,7 @@ function buildAutocompleteQuery(type, term, limit, offset) {
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             SELECT DISTINCT ?predicate ?label
             WHERE {
-                ?predicate rdf:type rdf:Property .
+                ?predicate a rdf:Property .
                 ?predicate rdfs:label ?label .
                 FILTER(regex(?label, "^${term}", "i"))
             }
@@ -150,7 +150,9 @@ function addSearchFilter() {
             <input type="hidden" class="hidden-uri">
             <input type="text" id="object-${filterCount}" class="object" placeholder="Value">
             <input type="hidden" class="hidden-uri">
-            <button class="delete-filter">X</button>
+            <div class="delete-filter-comp">
+                <button class="delete-filter">X</button>
+            </div>
         </div>
     `;
 

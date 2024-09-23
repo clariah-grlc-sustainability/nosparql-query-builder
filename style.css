@@ -9,16 +9,14 @@
 body {
     font-family: 'Open Sans', sans-serif;
     color: #333;
+    font-size: 12px;
     background-color: #f9f9f9;
     overflow: hidden;
 }
 
 /* Side panel toggle button */
-#side-panel {
+.side-panel {
     position: fixed;
-    top: 20px;
-    left: 20px; /* Ensure button stays in the top-left corner */
-    font-size: 24px;
     cursor: pointer;
     z-index: 1000;
     background-color: #3498db;
@@ -29,41 +27,33 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: left 0.3s ease;
-}
-
-/* When left pane is hidden, adjust side-panel position */
-#left-pane.hidden ~ #side-panel {
-    left: 20px;
-}
-
-/* Main content area */
-#main-content {
-    display: flex;
-    flex-direction: row;
-    height: calc(50vh - 60px); /* Adjusted height */
-    width: calc(100% - 80px); /* Shift content to the right of the button */
-    margin-left: 80px; /* Ensure the content starts to the right of the side-panel button */
-    overflow: hidden;
 }
 
 /* Left pane */
-#left-pane {
+.left {
     width: 300px;
     background-color: #fff;
     border-right: 1px solid #ddd;
-    transition: transform 0.3s ease;
+    transition: all 0.5s ease;
     padding: 20px;
     overflow-y: auto;
 }
 
+.content {
+    overflow-y: auto;
+    background-color: #ffffff;
+}
+
 /* Hide the left pane */
-#left-pane.hidden {
-    transform: translateX(-100%);
+.left.hidden {
+    width: 0; 
+    opacity: 0;
+    overflow: hidden; 
+    padding: 0;
 }
 
 /* Right pane */
-#right-pane {
+.right {
     flex: 1;
     background-color: #fff;
     padding: 20px;
@@ -71,23 +61,51 @@ body {
     transition: margin-left 0.3s ease;
 }
 
-/* Adjust right-pane when left-pane is hidden */
-#left-pane.hidden + #right-pane {
+
+@media (max-width: 768px) {
+    #main-content {
+        flex-direction: column;
+        height: auto;
+        margin-left: 20px; 
+        width: calc(100% - 40px); 
+    }
+
+    .left, .right {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .left.hidden {
+        transform: translateY(-100%);
+    }
+
+    .left.hidden + .right {
+        margin-top: 0;
+    }
+
+    #results {
+        height: auto;
+        margin-left: 20px;
+    }
+}
+
+.left.hidden + .right {
     margin-left: 0;
 }
 
 /* Adjust right-pane when left-pane is visible */
-#left-pane:not(.hidden) + #right-pane {
-    margin-left: 0; /* No margin needed */
+.left:not(.hidden) + .right {
+    margin-left: 0;
 }
 
 /* Results pane moved higher up */
-#results-pane {
-    padding: 20px;
+#results {
+    /* padding: 20px; */
     background-color: #fff;
     overflow-y: auto;
-    height: calc(50vh - 60px); /* Adjusted height */
-    margin-left: 80px; /* Shift the results section to the right of the button */
+    height: calc(50vh - 60px);
+    /* margin-left: 80px; */
 }
 
 /* Headings */
@@ -129,6 +147,10 @@ input[type="number"] {
     margin-right: 10px;
 }
 
+.delete-filter-comp {
+    padding-bottom: 14px;
+}
+
 .delete-filter {
     background-color: #e74c3c;
     color: #fff;
@@ -158,6 +180,10 @@ input[type="number"] {
     margin-top: 15px;
 }
 
+.side-button {
+    padding-top: 20px;
+}
+
 #execute-query:hover {
     background-color: #27ae60;
 }
@@ -165,15 +191,14 @@ input[type="number"] {
 /* SPARQL Query display */
 #sparql-query {
     background-color: #f0f0f0;
-    padding: 15px;
-    border-radius: 4px;
     font-family: 'Courier New', monospace;
-    margin-bottom: 15px;
+    padding-bottom: 30px;
     white-space: pre-wrap;
 }
 
 /* Results table */
 #results table {
+    background-color: #ffffff;
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
@@ -186,7 +211,7 @@ input[type="number"] {
 }
 
 #results th {
-    background-color: #f4f4f4;
+    background-color: #ffffff;
 }
 
 /* Loader */
@@ -205,33 +230,6 @@ input[type="number"] {
 }
 
 /* Adjustments for small screens */
-@media (max-width: 768px) {
-    #main-content {
-        flex-direction: column;
-        height: auto;
-        margin-left: 20px; /* Adjusted for small screens */
-        width: calc(100% - 40px); /* Adjusted width */
-    }
-
-    #left-pane, #right-pane {
-        width: 100%;
-        margin-left: 0;
-        margin-top: 20px;
-    }
-
-    #left-pane.hidden {
-        transform: translateY(-100%);
-    }
-
-    #left-pane.hidden + #right-pane {
-        margin-top: 0;
-    }
-
-    #results-pane {
-        height: auto;
-        margin-left: 20px; /* Adjusted for small screens */
-    }
-}
 
 /* Button hover effects */
 button:hover {
