@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
 </head>
 <body>
-    <div id="main-content" class="grid h-screen grid-rows-[60%]">
+    <div id="main-content">
         <div class="flex">
-            <div class="left w-[30%]">
+            <div class="left">
                 <label for="endpoint-url">SPARQL Endpoint URL</label>
                 <input type="text" id="endpoint-url" value="https://dbpedia.org/sparql">
 
@@ -62,7 +62,7 @@
 
                 <button id="execute-query">Execute Query</button>
             </div>
-            <div class="right w-[100%]">
+            <div class="right">
                 <h3>SPARQL Query</h3>
                 <div id="sparql-query"></div>
                 <div class="side-button">
