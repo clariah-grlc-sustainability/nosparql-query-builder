@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
 </head>
+
 <body>
     <div id="main-content">
         <div id="flexbox">
@@ -19,9 +21,15 @@
                 <div id="filter-container">
                     <label>Filters</label>
                     <div class="search-filter">
-                        <input type="text" id="predicate-0" class="predicate" placeholder="Predicate">
+                        <div class="input-loader-container">
+                            <input type="text" id="predicate-0" class="predicate" placeholder="Predicate">
+                            <div class="loader"></div>
+                        </div>
                         <input type="hidden" class="hidden-uri">
-                        <input type="text" id="object-0" class="object" placeholder="Object">
+                        <div class="input-loader-container">
+                            <input type="text" id="object-0" class="object" placeholder="Object">
+                            <div class="loader"></div>
+                        </div>
                         <input type="hidden" class="hidden-uri">
                         <div class="delete-filter-comp">
                             <button class="delete-filter">X</button>
@@ -34,7 +42,11 @@
                 <div id="value-filter-container">
                     <label>Value Filters</label>
                     <div class="value-search-filter">
-                        <input type="text" id="vpredicate-0" class="predicate" placeholder="Predicate">
+
+                        <div class="input-loader-container">
+                            <input type="text" id="vpredicate-0" class="predicate" placeholder="Predicate">
+                            <div class="loader"></div>
+                        </div>
                         <input type="hidden" class="hidden-uri">
                         <input type="text" id="min-val-0" class="min-val" placeholder="Min Value">
                         <input type="text" id="max-val-0" class="max-val" placeholder="Max Value">
@@ -44,19 +56,26 @@
                                 <option value="xsd:integer">Integer</option>
                                 <option value="xsd:decimal">Decimal</option>
                                 <option value="xsd:float">Float</option>
+                                <option value="xsd:string">String</option>
                             </select>
                         </div>
+
+
+
                         <div class="delete-filter-comp">
                             <button class="value-delete-filter">X</button>
                         </div>
+
                     </div>
                 </div>
-                
-                
+
                 <button id="add-value-filter">Add Value Filter</button>
 
                 <label for="show-attribute">Show Attribute</label>
-                <input type="text" id="show-attribute" class="show" placeholder="Attribute">
+                <div class="input-loader-container">
+                    <input type="text" id="show-attribute" class="show" placeholder="Attribute">
+                    <div class="loader"></div>
+                </div>
                 <input type="hidden" class="hidden-uri">
 
                 <label for="limit-val">Limit</label>
@@ -71,18 +90,18 @@
                     <div class="side-panel">☰</div>
                 </div>
             </div>
-            
         </div>
-      
+
         <div class="content">
             <h3>Query Results</h3>
-            <div id="results"></div>  
+            <div id="results"></div>
         </div>
     </div>
-      
+
     <script src="https://cdn.jsdelivr.net/npm/superagent"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>

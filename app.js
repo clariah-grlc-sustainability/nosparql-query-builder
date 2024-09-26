@@ -14,7 +14,7 @@ $(document).ready(function() {
 
     $('#add-value-filter').click(function() {
         addValueSearchFilter();
-        updateSparqlQuery() 
+        updateSparqlQuery()
     });
 
     $('#execute-query').click(function() {
@@ -48,7 +48,9 @@ function setupAutocomplete(selector, type) {
 
     $(selector).autocomplete({
         source: function(request, response) {
-            $(selector).addClass('loading');    // Show loading spinner
+            const $input = $(this.element);
+            const $container = $input.closest('.input-loader-container');
+            $container.addClass('loading');    // Show loading spinner
 
             // Check if the search term has changed
             if (currentTerm !== request.term) {
@@ -58,7 +60,7 @@ function setupAutocomplete(selector, type) {
 
             fetchSuggestions($('#endpoint-url').val(), type, currentTerm, page, function(items) {
                 newItems = items
-                $(selector).removeClass('loading'); // Hide loading spinner
+                $container.removeClass('loading'); // Hide loading spinner
 
                 // Add a "More" item to load additional results
                 if (newItems.length >= 10) { // Assuming 10 items per page
@@ -75,6 +77,8 @@ function setupAutocomplete(selector, type) {
             if (ui.item.value === "more") {
                 // Load next set of results
                 page++;
+                const $container = $(this).closest('.input-loader-container');
+                $container.addClass('loading');    // Show loading spinner
                 fetchSuggestions($('#endpoint-url').val(), type, currentTerm, page, function(items) {
                     newItems = items;
                     if (newItems.length >= 10) { // If there are more items to load
@@ -83,6 +87,7 @@ function setupAutocomplete(selector, type) {
                             value: "more"
                         });
                     }
+                    $container.removeClass('loading'); // Hide loading spinner
                     $(selector).autocomplete("search", currentTerm); // Trigger the autocomplete with the current term
                 });
                 return false; // Prevent default selection behavior
@@ -109,6 +114,9 @@ function fetchSuggestions(endpointUrl, type, term, page, callback) {
         success: function(data) {
             const items = parseAutocompleteResults(data, type);
             callback(items);
+        },
+        error: function() {
+            callback([]);
         }
     });
 }
@@ -152,9 +160,15 @@ function parseAutocompleteResults(data, type) {
 function addSearchFilter() {
     const filter = `
         <div class="search-filter">
-            <input type="text" id="predicate-${filterCount}" class="predicate" placeholder="Attribute">
+            <div class="input-loader-container">
+                <input type="text" id="predicate-${filterCount}" class="predicate" placeholder="Attribute">
+                <div class="loader"></div>
+            </div>
             <input type="hidden" class="hidden-uri">
-            <input type="text" id="object-${filterCount}" class="object" placeholder="Value">
+            <div class="input-loader-container">
+                <input type="text" id="object-${filterCount}" class="object" placeholder="Value">
+                <div class="loader"></div>
+            </div>
             <input type="hidden" class="hidden-uri">
             <div class="delete-filter-comp">
                 <button class="delete-filter">X</button>
@@ -171,10 +185,13 @@ function addSearchFilter() {
 function addValueSearchFilter() {
     const valueFilter = `
         <div class="value-search-filter">
-            <input type="text" id="vpredicate-${valueFilterCount}" class="predicate" placeholder="Predicate">
+            <div class="input-loader-container">
+                <input type="text" id="vpredicate-${valueFilterCount}" class="predicate" placeholder="Predicate">
+                <div class="loader"></div>
+            </div>
             <input type="hidden" class="hidden-uri">
-            <input type="text" id="min-val-0" class="min-val" placeholder="Min Value">
-            <input type="text" id="max-val-0" class="max-val" placeholder="Max Value">
+            <input type="text" id="min-val-${valueFilterCount}" class="min-val" placeholder="Min Value">
+            <input type="text" id="max-val-${valueFilterCount}" class="max-val" placeholder="Max Value">
             <div class="dtype-dropdown">
                 <select id="datatype-${valueFilterCount}" class="datatype">
                     <option value="xsd:date">Date</option>
@@ -236,7 +253,7 @@ function displayResults(data) {
         }
         table += '</tr>';
         let result_idx = 1;
-        
+
         bindings.forEach(binding => {
             table += `<tr>`;
             let first_iteration = true;
@@ -249,7 +266,7 @@ function displayResults(data) {
                 else {
                     table += `<td>${binding[key].value}</td>`;
                     first_iteration = true;
-                }   
+                }
             }
             table += '</tr>';
         });
@@ -265,7 +282,7 @@ function updateSparqlQuery() {
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        
+
         SELECT ?subject`;
 
     const showAttribute = $('#show-attribute').next('.hidden-uri').val();
@@ -313,7 +330,7 @@ function updateSparqlQuery() {
     });
 
     if (showAttribute) {
-        query += ` 
+        query += `
             ?subject <${showAttribute}> ?showAttributeVal .
         `;
     }
