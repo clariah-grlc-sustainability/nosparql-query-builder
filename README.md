@@ -10,3 +10,7 @@ GUI for building SPARQL queries without requiring knowledge of SPARQL. Inspired 
 ## Installing and testing
 
 Clone the repo. Open ```index.html``` in your browser ([Chrome](https://www.google.com/chrome/what-you-make-of-it/) or [Firefox](https://www.mozilla.org/en-US/firefox/new/) recommended).
+
+## License
+
+Copyright (c) 2024 Kody Moodley
