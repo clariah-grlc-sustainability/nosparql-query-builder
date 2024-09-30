@@ -14,14 +14,13 @@ $(document).ready(function() {
 
     $('#add-value-filter').click(function() {
         addValueSearchFilter();
-        updateSparqlQuery() 
     });
 
     $('#execute-query').click(function() {
         executeSparqlQuery();
     });
 
-    $(document).on('change', '.predicate, .object, #show-attribute, #limit-val', function() {
+    $(document).on('change', '.predicate, .min-val, .max-val, .object, #show-attribute, #limit-val', function() {
         updateSparqlQuery();
     });
 
@@ -48,7 +47,9 @@ function setupAutocomplete(selector, type) {
 
     $(selector).autocomplete({
         source: function(request, response) {
-            $(selector).addClass('loading');    // Show loading spinner
+            const $input = $(this.element);
+            const $container = $input.closest('.input-loader-container');
+            $container.addClass('loading');    // Show loading spinner
 
             // Check if the search term has changed
             if (currentTerm !== request.term) {
@@ -58,7 +59,7 @@ function setupAutocomplete(selector, type) {
 
             fetchSuggestions($('#endpoint-url').val(), type, currentTerm, page, function(items) {
                 newItems = items
-                $(selector).removeClass('loading'); // Hide loading spinner
+                $container.removeClass('loading');
 
                 // Add a "More" item to load additional results
                 if (newItems.length >= 10) { // Assuming 10 items per page
@@ -75,6 +76,10 @@ function setupAutocomplete(selector, type) {
             if (ui.item.value === "more") {
                 // Load next set of results
                 page++;
+
+                const $container = $(this).closest('.input-loader-container');
+                $container.addClass('loading');    // Show loading spinner
+
                 fetchSuggestions($('#endpoint-url').val(), type, currentTerm, page, function(items) {
                     newItems = items;
                     if (newItems.length >= 10) { // If there are more items to load
@@ -83,6 +88,9 @@ function setupAutocomplete(selector, type) {
                             value: "more"
                         });
                     }
+
+                    $container.removeClass('loading'); // Hide loading spinner
+
                     $(selector).autocomplete("search", currentTerm); // Trigger the autocomplete with the current term
                 });
                 return false; // Prevent default selection behavior
@@ -109,6 +117,9 @@ function fetchSuggestions(endpointUrl, type, term, page, callback) {
         success: function(data) {
             const items = parseAutocompleteResults(data, type);
             callback(items);
+        },
+        error: function() {
+            callback([]);
         }
     });
 }
@@ -152,10 +163,16 @@ function parseAutocompleteResults(data, type) {
 function addSearchFilter() {
     const filter = `
         <div class="search-filter">
-            <input type="text" id="predicate-${filterCount}" class="predicate" placeholder="Attribute">
-            <input type="hidden" class="hidden-uri">
-            <input type="text" id="object-${filterCount}" class="object" placeholder="Value">
-            <input type="hidden" class="hidden-uri">
+            <div class="input-loader-container">
+                <input type="text" id="predicate-${filterCount}" class="predicate" placeholder="Attribute">
+                <input type="hidden" class="hidden-uri">
+                <div class="loader"></div>
+            </div>
+            <div class="input-loader-container">
+                <input type="text" id="object-${filterCount}" class="object" placeholder="Value">
+                <input type="hidden" class="hidden-uri">
+                <div class="loader"></div>
+            </div>
             <div class="delete-filter-comp">
                 <button class="delete-filter">X</button>
             </div>
@@ -171,17 +188,23 @@ function addSearchFilter() {
 function addValueSearchFilter() {
     const valueFilter = `
         <div class="value-search-filter">
-            <input type="text" id="vpredicate-${valueFilterCount}" class="predicate" placeholder="Predicate">
-            <input type="hidden" class="hidden-uri">
-            <input type="text" id="min-val-0" class="min-val" placeholder="Min Value">
-            <input type="text" id="max-val-0" class="max-val" placeholder="Max Value">
+            <div class="input-loader-container">
+                <input type="text" id="vpredicate-${valueFilterCount}" class="predicate" placeholder="Attribute">
+                <input type="hidden" class="hidden-uri">
+                <div class="loader"></div>
+            </div>
+            <div class="input-loader-container">
+                <input type="text" id="min-val-${valueFilterCount}" class="min-val" placeholder="Min Value">
+            </div>
+            <div class="input-loader-container">
+                <input type="text" id="max-val-${valueFilterCount}" class="max-val" placeholder="Max Value">
+            </div>
             <div class="dtype-dropdown">
                 <select id="datatype-${valueFilterCount}" class="datatype">
                     <option value="xsd:date">Date</option>
                     <option value="xsd:integer">Integer</option>
                     <option value="xsd:decimal">Decimal</option>
                     <option value="xsd:float">Float</option>
-                    <option value="xsd:string">String</option>
                 </select>
             </div>
             <div class="delete-filter-comp">
@@ -211,7 +234,9 @@ function executeSparqlQuery() {
     const query = $('#sparql-query').text().trim();
     const endpointUrl = $('#endpoint-url').val();
     if (query) {
-        $('#results').html('<div class="loader"></div>');   // Show loading spinner
+        const $res = $('#results');
+        const $res_container = $res.closest('.input-loader-container');
+        $res_container.addClass('loading');    // Show loading spinner
 
         superagent
             .get(endpointUrl)
