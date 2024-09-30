@@ -14,3 +14,6 @@ Clone the repo. Open ```index.html``` in your browser ([Chrome](https://www.goog
 ## License
 
 Copyright (c) 2024 Kody Moodley
+
+This code is released under the MIT license.
+
