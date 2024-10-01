@@ -300,3 +300,77 @@ button:hover {
     background-color: #e6e6e6;
     color: black;
 }
+
+.regex-search-filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.show-attribute-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.show-attribute-section .input-loader-container {
+    margin-right: 10px;
+}
+
+.regex-search-filter .input-loader-container {
+    margin-right: 10px;
+}
+
+#add-regex-filter {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#add-regex-filter:hover {
+    background-color: #2980b9;
+}
+
+#add-show-attribute {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#add-show-attribute:hover {
+    background-color: #2980b9;
+}
+/* Button hover effect for regex delete button */
+.regex-delete-filter {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.regex-delete-filter:hover {
+    background-color: #c0392b;
+}
+
+.show-attribute-delete {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.show-attribute-delete:hover {
+    background-color: #c0392b;
+}

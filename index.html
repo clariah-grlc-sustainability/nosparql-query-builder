@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPARQL Query Editor</title>
+    <title>NoSPARQL Query Builder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -65,15 +65,42 @@
                     </div>
                 </div>
                 
-                
-                <button id="add-value-filter">Add Value Range Filter</button>
+                <button id="add-value-filter">Add Value Range Filter</button>                
 
-                <label for="show-attribute">Show Attribute</label>
-                <div class="input-loader-container">
-                    <input type="text" id="show-attribute" placeholder="Attribute">
-                    <input type="hidden" class="hidden-uri">
-                    <div class="loader"></div>
+                <div id="regex-filter-container">
+                    <label>String Match Filters</label>
+                    <div class="regex-search-filter">
+                        <div class="input-loader-container">
+                            <input type="text" id="rpredicate-0" class="predicate" placeholder="Attribute">
+                            <input type="hidden" class="hidden-uri">
+                            <div class="loader"></div>
+                        </div>
+                        <div class="input-loader-container">
+                            <input type="text" id="regex-0" class="regex" placeholder="Regex Pattern">
+                        </div>
+                        <div class="delete-filter-comp">
+                            <button class="regex-delete-filter">X</button>
+                        </div>
+                    </div>
                 </div>
+                
+                <button id="add-regex-filter">Add String Match Filter</button>
+
+                <div id="show-attribute-container">
+                    <label>Show Attributes</label>
+                    <div class="show-attribute-section">
+                        <div class="input-loader-container">
+                            <input type="text" id="show-attribute-0" class="predicate" placeholder="Attribute">
+                            <input type="hidden" class="hidden-uri">
+                            <div class="loader"></div>
+                        </div>
+                        <div class="delete-filter-comp">
+                            <button class="show-attribute-delete">X</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="add-show-attribute">Add Show Attribute</button>
                 
                 <label for="limit-val">Limit</label>
                 <input type="number" id="limit-val" class="limit" value="100">

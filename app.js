@@ -1,6 +1,8 @@
 let filterCount = 1;
 let valueFilterCount = 1;
 let newItems = [];
+let regexFilterCount = 1;
+let showAttributeCount = 1;
 
 $(document).ready(function() {
     // Autocompletion for search filter dropdown boxes
@@ -16,20 +18,28 @@ $(document).ready(function() {
         addValueSearchFilter();
     });
 
+    $('#add-regex-filter').click(function() {
+        addRegexSearchFilter();
+    });
+
+    $('#add-show-attribute').click(function() {
+        addShowAttribute();
+    });
+
     $('#execute-query').click(function() {
         executeSparqlQuery();
     });
 
-    $(document).on('change', '.predicate, .min-val, .max-val, .object, #show-attribute, #limit-val', function() {
+    $(document).on('change', '.predicate, .min-val, .max-val, .regex, .object, #show-attribute, #limit-val', function() {
         updateSparqlQuery();
+        newItems = [];                                                  // Refresh dropdown items
     });
 
     $(document).on('input', '.predicate, .object, #show-attribute', function() {
-        newItems = [];
+        newItems = [];                                                  // Refresh dropdown items
     });
 
-    // Show or hide side panel
-    $('.side-panel').click(function() {
+    $('.side-panel').click(function() {                                 // Show or hide side panel
         $('.left').toggleClass('hidden');
         if ($('.left').hasClass('hidden')) {
             $('.side-panel').text('→');
@@ -42,27 +52,25 @@ $(document).ready(function() {
 });
 
 function setupAutocomplete(selector, type) {
-    let page = 0; // Current page number for pagination
-    let currentTerm = ''; // Store the current search term
+    let page = 0;                                                       // Current page number for pagination
+    let currentTerm = '';                                               // Store the current search term
 
     $(selector).autocomplete({
         source: function(request, response) {
             const $input = $(this.element);
             const $container = $input.closest('.input-loader-container');
-            $container.addClass('loading');    // Show loading spinner
+            $container.addClass('loading');                             // Show loading spinner
 
-            // Check if the search term has changed
-            if (currentTerm !== request.term) {
-                currentTerm = request.term; // Update to the new term
-                page = 0; // Reset to the first page
+            if (currentTerm !== request.term) {                         // Check if the search term has changed
+                currentTerm = request.term;                             // Update to the new term
+                page = 0;                                               // Reset to the first page
             }
 
             fetchSuggestions($('#endpoint-url').val(), type, currentTerm, page, function(items) {
                 newItems = items
-                $container.removeClass('loading');
+                $container.removeClass('loading');                      // Hide loading spinner
 
-                // Add a "More" item to load additional results
-                if (newItems.length >= 10) { // Assuming 10 items per page
+                if (newItems.length >= 10) {                            // Add a "More" item to load additional results, assuming 10 items per page
                     newItems.push({
                         label: "More...",
                         value: "more"
@@ -73,39 +81,37 @@ function setupAutocomplete(selector, type) {
         },
         minLength: 2,
         select: function(event, ui) {
-            if (ui.item.value === "more") {
-                // Load next set of results
+            if (ui.item.value === "more") {                             // Load next set of results
                 page++;
 
                 const $container = $(this).closest('.input-loader-container');
-                $container.addClass('loading');    // Show loading spinner
+                $container.addClass('loading');                         // Show loading spinner
 
                 fetchSuggestions($('#endpoint-url').val(), type, currentTerm, page, function(items) {
                     newItems = items;
-                    if (newItems.length >= 10) { // If there are more items to load
+                    if (newItems.length >= 10) {                        // If there are more items to load
                         newItems.push({
                             label: "More...",
                             value: "more"
                         });
                     }
 
-                    $container.removeClass('loading'); // Hide loading spinner
-
-                    $(selector).autocomplete("search", currentTerm); // Trigger the autocomplete with the current term
+                    $container.removeClass('loading');                  // Hide loading spinner
+                    $(selector).autocomplete("search", currentTerm);    // Trigger the autocomplete with the current term
                 });
-                return false; // Prevent default selection behavior
+                return false;                                           // Prevent default selection behavior
             } else {
-                $(this).val(ui.item.label); // Display the label in the input
-                $(this).next('.hidden-uri').val(ui.item.value); // Store the full URI
-                return false; // Prevent default selection behavior
+                $(this).val(ui.item.label);                             // Display the label in the input
+                $(this).next('.hidden-uri').val(ui.item.value);         // Store the full URI
+                return false;                                           // Prevent default selection behavior
             }
         }
     });
 }
 
 function fetchSuggestions(endpointUrl, type, term, page, callback) {
-    const limit = 30; // Number of suggestions per page
-    const offset = page * limit; // Calculate the offset for pagination
+    const limit = 30;                                                   // Number of suggestions per page
+    const offset = page * limit;                                        // Calculate the offset for pagination
 
     $.ajax({
         url: endpointUrl,
@@ -218,15 +224,64 @@ function addValueSearchFilter() {
     valueFilterCount++;
 }
 
-// Event handler to delete filters
-$(document).on('click', '.delete-filter', function() {
+function addRegexSearchFilter() {
+    const regexFilter = `
+        <div class="regex-search-filter">
+            <div class="input-loader-container">
+                <input type="text" id="rpredicate-${regexFilterCount}" class="predicate" placeholder="Attribute">
+                <input type="hidden" class="hidden-uri">
+                <div class="loader"></div>
+            </div>
+            <div class="input-loader-container">
+                <input type="text" id="regex-${regexFilterCount}" class="regex" placeholder="Regex Pattern">
+            </div>
+            <div class="delete-filter-comp">
+                <button class="regex-delete-filter">X</button>
+            </div>
+        </div>
+    `;
+    
+    $('#regex-filter-container').append(regexFilter);
+    setupAutocomplete(`#rpredicate-${regexFilterCount}`, 'predicate');
+    regexFilterCount++;
+}
+
+function addShowAttribute(){
+    const showAttribute = `
+        <div class="show-attribute-section">
+            <div class="input-loader-container">
+                <input type="text" id="show-attribute-${showAttributeCount}" class="predicate" placeholder="Attribute">
+                <input type="hidden" class="hidden-uri">
+                <div class="loader"></div>
+            </div>
+            <div class="delete-filter-comp">
+                <button class="show-attribute-delete">X</button>
+            </div>
+        </div>
+    `;
+    
+    $('#show-attribute-container').append(showAttribute);
+    setupAutocomplete(`#show-attribute-${showAttributeCount}`, 'predicate');
+    showAttributeCount++;    
+}
+
+$(document).on('click', '.delete-filter', function() {                  // Event handler to delete filters
     $(this).closest('.search-filter').remove();
     updateSparqlQuery();
 });
 
-// Event handler to delete value filters
-$(document).on('click', '.value-delete-filter', function() {
+$(document).on('click', '.value-delete-filter', function() {            // Event handler to delete value filters
     $(this).closest('.value-search-filter').remove();
+    updateSparqlQuery();
+});
+
+$(document).on('click', '.regex-delete-filter', function() {            // Event handler to delete regex filters
+    $(this).closest('.regex-search-filter').remove();
+    updateSparqlQuery();
+});
+
+$(document).on('click', '.show-attribute-delete', function() {            // Event handler to delete show attributes
+    $(this).closest('.show-attribute-section').remove();
     updateSparqlQuery();
 });
 
@@ -236,7 +291,7 @@ function executeSparqlQuery() {
     if (query) {
         const $res = $('#results');
         const $res_container = $res.closest('.input-loader-container');
-        $res_container.addClass('loading');    // Show loading spinner
+        $res_container.addClass('loading');                             // Show loading spinner
 
         superagent
             .get(endpointUrl)
@@ -244,6 +299,7 @@ function executeSparqlQuery() {
             .set('Accept', '*/*')
             .then(response => {
                 displayResults(response.body);
+                $res_container.removeClass('loading');                  // Hide loading spinner
             })
             .catch(error => {
                 $('#results').html('<p>Error executing query.</p>');
@@ -273,9 +329,10 @@ function displayResults(data) {
                 }
                 else {
                     table += `<td>${binding[key].value}</td>`;
-                    first_iteration = true;
+                    first_iteration = false;
                 }   
             }
+            
             table += '</tr>';
         });
         table += '</table>';
@@ -293,14 +350,18 @@ function updateSparqlQuery() {
         
         SELECT ?subject`;
 
-    const showAttribute = $('#show-attribute').next('.hidden-uri').val();
+    $('.show-attribute-section').each(function() {
+        const predicate = $(this).find('.predicate').next('.hidden-uri').val();
+        const predicateObj = $(this).find('.predicate');
+        const predicateId = predicateObj.attr('id');
+        const numberPart = predicateId.match(/-(\d+)$/)[1];
 
-    if (showAttribute) {
-        query += ` ?showAttributeVal\r\n`;
-    }
-    else {
-        query += `\r\n`;
-    }
+        if (predicate) {
+            query += ` ?showAttributeVal${numberPart} `;
+        }
+    });
+
+    query += `\r\n`;
 
     query += `
         WHERE {
@@ -329,7 +390,6 @@ function updateSparqlQuery() {
         const maxValue = $(this).find('.max-val').val();
 
         if (predicate && minValue && maxValue) {
-            // Add a filter for range (e.g., date or numeric values)
             query += `
             ?subject <${predicate}> ?value${numberPart} .
             FILTER(?value${numberPart} >= "${minValue}"^^${datatype} && ?value${numberPart} <= "${maxValue}"^^${datatype})
@@ -337,11 +397,30 @@ function updateSparqlQuery() {
         }
     });
 
-    if (showAttribute) {
-        query += ` 
-            ?subject <${showAttribute}> ?showAttributeVal .
-        `;
-    }
+    $('.regex-search-filter').each(function() {
+        const predicate = $(this).find('.predicate').next('.hidden-uri').val();
+        const regex = $(this).find('.regex').val();
+
+        if (predicate && regex) {
+            query += `
+            ?subject <${predicate}> ?regexValue .
+            FILTER(regex(?regexValue, "${regex}", "i"))
+            `;
+        }
+    });
+
+    $('.show-attribute-section').each(function() {
+        const predicate = $(this).find('.predicate').next('.hidden-uri').val();
+        const predicateObj = $(this).find('.predicate');
+        const predicateId = predicateObj.attr('id');
+        const numberPart = predicateId.match(/-(\d+)$/)[1];
+
+        if (predicate) {
+            query += ` 
+                ?subject <${predicate}> ?showAttributeVal${numberPart} .
+            `;
+        }
+    });
 
     const limit = $('#limit-val').val();
 
