@@ -14,7 +14,7 @@
         <div id="flexbox">
             <div class="left">
                 <label for="endpoint-url">SPARQL Endpoint URL</label>
-                <input type="text" id="endpoint-url" value="https://dbpedia.org/sparql">
+                <input type="text" id="endpoint-url" value="https://dbpedia.org/sparql" placeholder="Endpoint URL">
 
                 <div id="filter-container">
                     <label>Attribute Filters</label>
@@ -103,7 +103,18 @@
                 <button id="add-show-attribute">Add Show Attribute</button>
                 
                 <label for="limit-val">Limit</label>
-                <input type="number" id="limit-val" class="limit" value="100">
+                <input type="number" id="limit-val" class="limit" value="100" placeholder="Number of results">
+
+                <div class="aggbox">
+                    <div class="labelbox">
+                        <label for="aggregate" title="Concatenate 1-to-many relationships with comma-separated values">
+                            Aggregate results? 
+                        </label>
+                    </div>
+                    <div class="aggcheck">
+                        <input type="checkbox" id="aggregate">
+                    </div>
+                </div>
 
                 <button id="execute-query">Execute Query</button>
             </div>

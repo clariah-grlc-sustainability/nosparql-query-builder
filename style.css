@@ -113,6 +113,26 @@ label {
     font-weight: 600;
 }
 
+.aggbox {
+    display:flex;
+}
+
+.aggcheck {
+    display:flex;
+    padding-left: 8px;
+}
+
+.labelbox {
+    display:flex;
+}
+
+input[type="checkbox"] {
+    color: #3c3c3c;
+    border: 1px solid #ccc;
+}
+
+
+
 input[type="text"],
 input[type="number"] {
     width: 100%;
