@@ -285,13 +285,18 @@ $(document).on('click', '.show-attribute-delete', function() {            // Eve
     updateSparqlQuery();
 });
 
+$(document).on('change', '#aggregate', function() {                         // Event handler to aggregate results
+    updateSparqlQuery();
+});
+
 function executeSparqlQuery() {
     const query = $('#sparql-query').text().trim();
     const endpointUrl = $('#endpoint-url').val();
     if (query) {
         const $res = $('#results');
         const $res_container = $res.closest('.input-loader-container');
-        $res_container.addClass('loading');                             // Show loading spinner
+        $('#results').html('<p></p>');                                      // Reset results area                                    
+        $res_container.addClass('loading');                                 // Show loading spinner
 
         superagent
             .get(endpointUrl)
@@ -299,7 +304,7 @@ function executeSparqlQuery() {
             .set('Accept', '*/*')
             .then(response => {
                 displayResults(response.body);
-                $res_container.removeClass('loading');                  // Hide loading spinner
+                $res_container.removeClass('loading');                      // Hide loading spinner
             })
             .catch(error => {
                 $('#results').html('<p>Error executing query.</p>');
@@ -357,7 +362,12 @@ function updateSparqlQuery() {
         const numberPart = predicateId.match(/-(\d+)$/)[1];
 
         if (predicate) {
-            query += ` ?showAttributeVal${numberPart} `;
+            if ($('#aggregate').is(':checked')) {                       // aggregate results
+                query += ` (GROUP_CONCAT(DISTINCT ?showAttributeVal${numberPart}; separator=", ") AS ?showAttributeVal${numberPart}c) `;
+            }
+            else {
+                query += ` ?showAttributeVal${numberPart} `;
+            }
         }
     });
 
@@ -409,6 +419,12 @@ function updateSparqlQuery() {
         }
     });
 
+    if ($('#aggregate').is(':checked')) {                               // aggregate results
+        query += `
+            OPTIONAL {
+        `;
+    }
+
     $('.show-attribute-section').each(function() {
         const predicate = $(this).find('.predicate').next('.hidden-uri').val();
         const predicateObj = $(this).find('.predicate');
@@ -416,21 +432,27 @@ function updateSparqlQuery() {
         const numberPart = predicateId.match(/-(\d+)$/)[1];
 
         if (predicate) {
-            query += ` 
+            query += `
                 ?subject <${predicate}> ?showAttributeVal${numberPart} .
             `;
         }
     });
 
+    if ($('#aggregate').is(':checked')) {                              // aggregate results
+        query += ` }\r\n`;
+    }
+
     const limit = $('#limit-val').val();
 
     if (limit) {
         query += `
-        } LIMIT ${limit}`;
+            } LIMIT ${limit}
+        `;
     }
     else {
         query += `
-        } LIMIT 100`;
+            } LIMIT 100
+        `;
     }
 
     $('#sparql-query').text(query);
