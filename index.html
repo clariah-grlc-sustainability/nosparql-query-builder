@@ -17,25 +17,30 @@
                 <input type="text" id="endpoint-url" value="https://dbpedia.org/sparql" placeholder="Endpoint URL">
 
                 <div id="filter-container">
-                    <label>Attribute Filters</label>
-                    <div class="search-filter">
-                        <div class="input-loader-container">
-                            <input type="text" id="predicate-0" class="predicate" placeholder="Attribute">
-                            <input type="hidden" class="hidden-uri">
-                            <div class="loader"></div>
+                    <label>Attribute Filters <button class="toggle-button" data-target="#attribute-filters">−</button></label>
+                    <div id="attribute-filters" class="collapsible">
+                        <div id="attribute-filters-section">
+                            <div class="search-filter">
+                                <div class="input-loader-container">
+                                    <input type="text" id="predicate-0" class="predicate" placeholder="Attribute">
+                                    <input type="hidden" class="hidden-uri">
+                                    <div class="loader"></div>
+                                </div>
+                                <div class="input-loader-container">
+                                    <input type="text" id="object-0" class="object" placeholder="Value">
+                                    <input type="hidden" class="hidden-uri">
+                                    <div class="loader"></div>
+                                </div>
+                                <div class="delete-filter-comp">
+                                    <button class="delete-filter">X</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="input-loader-container">
-                            <input type="text" id="object-0" class="object" placeholder="Value">
-                            <input type="hidden" class="hidden-uri">
-                            <div class="loader"></div>
-                        </div>
-                        <div class="delete-filter-comp">
-                            <button class="delete-filter">X</button>
-                        </div>
+                        <button id="add-filter">Add Attribute Filter</button>
                     </div>
                 </div>
 
-                <button id="add-filter">Add Attribute Filter</button>
+                
 
                 <div id="value-filter-container">
                     <label>Value Range Filters</label>

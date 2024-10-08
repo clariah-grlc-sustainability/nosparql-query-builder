@@ -302,7 +302,6 @@ button:hover {
     background-color: #27ae60;
 }
 
-/* Autocomplete styles */
 .ui-autocomplete {
     max-height: 200px;
     overflow-y: auto;
@@ -367,7 +366,7 @@ button:hover {
 #add-show-attribute:hover {
     background-color: #2980b9;
 }
-/* Button hover effect for regex delete button */
+
 .regex-delete-filter {
     background-color: #e74c3c;
     color: #fff;
@@ -392,4 +391,39 @@ button:hover {
 
 .show-attribute-delete:hover {
     background-color: #c0392b;
+}
+
+.collapsible {
+    display: block;
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.collapsible.hidden {
+    display: none;
+}
+
+.toggle-button {
+    text-align: right;
+    background-color: #eae9e9; 
+    border: 1px solid #e7e7e7;
+    border-radius: 4px;
+    width: 25px;
+    height: 25px;
+    font-size: 16px;
+    line-height: 25px;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0;
+    margin-left: 290px;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-button:hover {
+    background-color: #9b9b9b;
+}
+
+.toggle-button:focus {
+    outline: none;
 }
