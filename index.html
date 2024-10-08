@@ -17,7 +17,15 @@
                 <input type="text" id="endpoint-url" value="https://dbpedia.org/sparql" placeholder="Endpoint URL">
 
                 <div id="filter-container">
-                    <label>Attribute Filters <button class="toggle-button" data-target="#attribute-filters">−</button></label>
+                    <div class="labelheader">
+                        <div class="lbl">
+                            <label>Attribute Filters</label>
+                        </div>
+                        <div class="tgbut">
+                            <button class="toggle-button" data-target="#attribute-filters">−</button>
+                        </div>
+                    </div>
+
                     <div id="attribute-filters" class="collapsible">
                         <div id="attribute-filters-section">
                             <div class="search-filter">
@@ -40,73 +48,104 @@
                     </div>
                 </div>
 
-                
-
                 <div id="value-filter-container">
-                    <label>Value Range Filters</label>
-                    <div class="value-search-filter">
-                        <div class="input-loader-container">
-                            <input type="text" id="vpredicate-0" class="predicate" placeholder="Attribute">
-                            <input type="hidden" class="hidden-uri">
-                            <div class="loader"></div>
-                        </div>        
-                        <div class="input-loader-container">
-                            <input type="text" id="min-val-0" class="min-val" placeholder="Min Value">
+                    <div class="labelheader">
+                        <div class="lbl">
+                            <label>Value Range Filters</label>
                         </div>
-                        <div class="input-loader-container">
-                            <input type="text" id="max-val-0" class="max-val" placeholder="Max Value">
-                        </div>
-                        <div class="dtype-dropdown">
-                            <select id="datatype-0" class="datatype">
-                                <option value="xsd:date">Date</option>
-                                <option value="xsd:integer">Integer</option>
-                                <option value="xsd:decimal">Decimal</option>
-                                <option value="xsd:float">Float</option>
-                            </select>
-                        </div>
-                        <div class="delete-filter-comp">
-                            <button class="value-delete-filter">X</button>
+                        <div class="tgbut">
+                            <button class="toggle-button" data-target="#value-range-filters">−</button>
                         </div>
                     </div>
-                </div>
-                
-                <button id="add-value-filter">Add Value Range Filter</button>                
 
-                <div id="regex-filter-container">
-                    <label>String Match Filters</label>
-                    <div class="regex-search-filter">
-                        <div class="input-loader-container">
-                            <input type="text" id="rpredicate-0" class="predicate" placeholder="Attribute">
-                            <input type="hidden" class="hidden-uri">
-                            <div class="loader"></div>
+                    <div id="value-range-filters" class="collapsible">
+                        <div id="value-range-filters-section">
+                            <div class="value-search-filter">
+                                <div class="input-loader-container">
+                                    <input type="text" id="vpredicate-0" class="predicate" placeholder="Attribute">
+                                    <input type="hidden" class="hidden-uri">
+                                    <div class="loader"></div>
+                                </div>        
+                                <div class="input-loader-container">
+                                    <input type="text" id="min-val-0" class="min-val" placeholder="Min Value">
+                                </div>
+                                <div class="input-loader-container">
+                                    <input type="text" id="max-val-0" class="max-val" placeholder="Max Value">
+                                </div>
+                                <div class="dtype-dropdown">
+                                    <select id="datatype-0" class="datatype">
+                                        <option value="xsd:date">Date</option>
+                                        <option value="xsd:integer">Integer</option>
+                                        <option value="xsd:decimal">Decimal</option>
+                                        <option value="xsd:float">Float</option>
+                                    </select>
+                                </div>
+                                <div class="delete-filter-comp">
+                                    <button class="value-delete-filter">X</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="input-loader-container">
-                            <input type="text" id="regex-0" class="regex" placeholder="Regex Pattern">
-                        </div>
-                        <div class="delete-filter-comp">
-                            <button class="regex-delete-filter">X</button>
-                        </div>
+                        <button id="add-value-filter">Add Value Range Filter</button>                
                     </div>
                 </div>
                 
-                <button id="add-regex-filter">Add String Match Filter</button>
+                <div id="regex-filter-container">
+                    <div class="labelheader">
+                        <div class="lbl">
+                            <label>String Match Filters</label>
+                        </div>
+                        <div class="tgbut">
+                            <button class="toggle-button" data-target="#regex-search-filters">−</button>
+                        </div>
+                    </div>
+                    
+                    <div id="regex-search-filters" class="collapsible">
+                        <div id="regex-search-filters-section">
+                            <div class="regex-search-filter">
+                                <div class="input-loader-container">
+                                    <input type="text" id="rpredicate-0" class="predicate" placeholder="Attribute">
+                                    <input type="hidden" class="hidden-uri">
+                                    <div class="loader"></div>
+                                </div>
+                                <div class="input-loader-container">
+                                    <input type="text" id="regex-0" class="regex" placeholder="Regex Pattern">
+                                </div>
+                                <div class="delete-filter-comp">
+                                    <button class="regex-delete-filter">X</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="add-regex-filter">Add String Match Filter</button>
+                    </div>
+                </div>
 
                 <div id="show-attribute-container">
-                    <label>Show Attributes</label>
-                    <div class="show-attribute-section">
-                        <div class="input-loader-container">
-                            <input type="text" id="show-attribute-0" class="predicate" placeholder="Attribute">
-                            <input type="hidden" class="hidden-uri">
-                            <div class="loader"></div>
+                    <div class="labelheader">
+                        <div class="lbl">
+                            <label>Show Attributes</label>
                         </div>
-                        <div class="delete-filter-comp">
-                            <button class="show-attribute-delete">X</button>
+                        <div class="tgbut">
+                            <button class="toggle-button" data-target="#show-attributes-items">−</button>
                         </div>
+                    </div>
+
+                    <div id="show-attributes-items" class="collapsible">
+                        <div id="show-attributes-items-section">
+                            <div class="show-attribute-section">
+                                <div class="input-loader-container">
+                                    <input type="text" id="show-attribute-0" class="predicate" placeholder="Attribute">
+                                    <input type="hidden" class="hidden-uri">
+                                    <div class="loader"></div>
+                                </div>
+                                <div class="delete-filter-comp">
+                                    <button class="show-attribute-delete">X</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="add-show-attribute">Add Show Attribute</button>
                     </div>
                 </div>
 
-                <button id="add-show-attribute">Add Show Attribute</button>
-                
                 <label for="limit-val">Limit</label>
                 <input type="number" id="limit-val" class="limit" value="100" placeholder="Number of results">
 

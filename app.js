@@ -229,7 +229,7 @@ function addValueSearchFilter() {
         </div>
     `;
 
-    $('#value-filter-container').append(valueFilter);
+    $('#value-range-filters-section').append(valueFilter);
     setupAutocomplete(`#vpredicate-${valueFilterCount}`, 'predicate');
     valueFilterCount++;
 }
@@ -251,7 +251,7 @@ function addRegexSearchFilter() {
         </div>
     `;
     
-    $('#regex-filter-container').append(regexFilter);
+    $('#regex-search-filters-section').append(regexFilter);
     setupAutocomplete(`#rpredicate-${regexFilterCount}`, 'predicate');
     regexFilterCount++;
 }
@@ -270,7 +270,7 @@ function addShowAttribute(){
         </div>
     `;
     
-    $('#show-attribute-container').append(showAttribute);
+    $('#show-attributes-items-section').append(showAttribute);
     setupAutocomplete(`#show-attribute-${showAttributeCount}`, 'predicate');
     showAttributeCount++;    
 }

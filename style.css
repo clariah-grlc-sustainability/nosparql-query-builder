@@ -131,8 +131,6 @@ input[type="checkbox"] {
     border: 1px solid #ccc;
 }
 
-
-
 input[type="text"],
 input[type="number"] {
     width: 100%;
@@ -403,6 +401,12 @@ button:hover {
     display: none;
 }
 
+.labelheader {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
 .toggle-button {
     text-align: right;
     background-color: #eae9e9; 
@@ -416,7 +420,7 @@ button:hover {
     cursor: pointer;
     display: inline-block;
     padding: 0;
-    margin-left: 290px;
+    margin-left: 10px;
     transition: background-color 0.3s ease;
 }
 
