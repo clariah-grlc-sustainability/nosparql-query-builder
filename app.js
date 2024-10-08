@@ -30,6 +30,16 @@ $(document).ready(function() {
         executeSparqlQuery();
     });
 
+    $('.toggle-button').click(function() {
+        const target = $(this).data('target');
+        $(target).slideToggle(); // Toggle visibility of the target section
+    
+        // Change the button text to "+" or "-" depending on the visibility
+        const buttonText = $(this).text() === "−" ? "+" : "−";
+        $(this).text(buttonText);
+
+    });
+
     $(document).on('change', '.predicate, .min-val, .max-val, .regex, .object, #show-attribute, #limit-val', function() {
         updateSparqlQuery();
         newItems = [];                                                  // Refresh dropdown items
@@ -185,7 +195,7 @@ function addSearchFilter() {
         </div>
     `;
 
-    $('#filter-container').append(filter);
+    $('#attribute-filters-section').append(filter);
     setupAutocomplete(`#predicate-${filterCount}`, 'predicate');
     setupAutocomplete(`#object-${filterCount}`, 'object');
     filterCount++;
@@ -219,7 +229,7 @@ function addValueSearchFilter() {
         </div>
     `;
 
-    $('#value-filter-container').append(valueFilter);
+    $('#value-range-filters-section').append(valueFilter);
     setupAutocomplete(`#vpredicate-${valueFilterCount}`, 'predicate');
     valueFilterCount++;
 }
@@ -241,7 +251,7 @@ function addRegexSearchFilter() {
         </div>
     `;
     
-    $('#regex-filter-container').append(regexFilter);
+    $('#regex-search-filters-section').append(regexFilter);
     setupAutocomplete(`#rpredicate-${regexFilterCount}`, 'predicate');
     regexFilterCount++;
 }
@@ -260,7 +270,7 @@ function addShowAttribute(){
         </div>
     `;
     
-    $('#show-attribute-container').append(showAttribute);
+    $('#show-attributes-items-section').append(showAttribute);
     setupAutocomplete(`#show-attribute-${showAttributeCount}`, 'predicate');
     showAttributeCount++;    
 }
