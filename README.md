@@ -11,6 +11,10 @@ GUI for building SPARQL queries without requiring knowledge of SPARQL. Inspired 
 
 Clone the repo. Open ```index.html``` in your browser ([Chrome](https://www.google.com/chrome/what-you-make-of-it/) or [Firefox](https://www.mozilla.org/en-US/firefox/new/) recommended).
 
+## Live version
+
+[Available here](https://clariah-grlc-sustainability.github.io/nosparql-query-builder/)
+
 ## License
 
 Copyright (c) 2024 Kody Moodley
